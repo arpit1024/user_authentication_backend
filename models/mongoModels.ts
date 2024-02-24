@@ -1,17 +1,17 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface User extends Document {
-    name: string;
-    email: string;
-    password: string;
-    phone: string;
+  name: string;
+  email: string;
+  password: string;
+  phone: string;
 }
 
 const UserSchema: Schema = new Schema<User>({
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    phone: { type: String, required: true }
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  phone: { type: String, required: true },
 });
 
 UserSchema.index({ name: 1 });
