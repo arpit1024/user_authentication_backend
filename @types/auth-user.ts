@@ -1,4 +1,4 @@
-import { User } from "../models/mongoModels";
+import { User } from "../models/userModels";
 
 declare global {
   namespace Express {

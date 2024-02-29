@@ -1,5 +1,7 @@
 import { Service } from "typedi";
-import UserModel from "../models/mongoModels";
+import UserModel from "../models/userModels";
+
+// Database Queries Only No Business logic
 @Service()
 export class UserCollection {
   private userDataCollection;
@@ -8,7 +10,7 @@ export class UserCollection {
   }
 
   async findUserByEmail(email: string) {
-    return this.userDataCollection.findOne({ email }).lean();
+    return await this.userDataCollection.findOne({ email }).lean();
   }
 
   async saveCollection(
