@@ -37,3 +37,45 @@ export async function loginUser(req: Request, res: Response) {
     res.status(500).json({ error: "Internal server error" });
   }
 }
+
+export async function getUserProfile(req: Request, res: Response) {
+  try {
+    const { email } = req.user!;
+    const response = await userService.findUserByEmail(email);
+    if (response instanceof Error) {
+      return res.status(422).send(response.message);
+    }
+    return res.status(200).send(response);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+export async function getUserPosts(req: Request, res: Response) {
+  try {
+    const { email } = req.user!;
+    const response = await userService.getUserPosts(email);
+    return res.status(200).send(response);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+export async function createPost(req: Request, res: Response) {
+  try {
+    const { email } = req.user!;
+    const { message } = req.body;
+    const response = await userService.createUserPost(email, message);
+    if (response instanceof Error) {
+      res.status(422).send(response.message);
+    }
+    return res.status(201).send("Post Created Successfully!");
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+
