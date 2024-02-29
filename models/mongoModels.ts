@@ -14,7 +14,7 @@ const UserSchema: Schema = new Schema<User>({
   phone: { type: String, required: true },
 });
 
-UserSchema.index({ name: 1 });
+UserSchema.index({ phone: 1 });
 UserSchema.index({ email: 1 });
 
 const UserModel = mongoose.model<User>("User", UserSchema);
