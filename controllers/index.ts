@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import Container from "typedi";
 import { UserService } from "../services/user";
-import { userSchemaValidator } from "../validations";
+import { userProfileValidator, userSchemaValidator } from "../validations";
 import { AuthService } from "../services/auth";
 const app = express();
 const userService = Container.get(UserService);
@@ -63,13 +63,15 @@ export async function getUserPosts(req: Request, res: Response) {
   }
 }
 
-export async function createPost(req: Request, res: Response) {
+export async function saveUserProfile(req: Request, res: Response) {
   try {
-    const { email } = req.user!;
-    const { message } = req.body;
-    const response = await userService.createUserPost(email, message);
+    const validationResponse = userProfileValidator.validate(req.body);
+    if (validationResponse.error) {
+      return res.status(400).send(validationResponse.error.message);
+    }
+    const response = await userService.saveUserProfile(validationResponse.value);
     if (response instanceof Error) {
-      res.status(422).send(response.message);
+      return res.status(422).send(response.message);
     }
     return res.status(201).send("Post Created Successfully!");
   } catch (error) {

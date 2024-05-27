@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { connection } from "mongoose";
-import { createPost, getUserPosts, getUserProfile, loginUser, registerUser } from "../controllers";
+import { getUserPosts, getUserProfile, loginUser, registerUser, saveUserProfile } from "../controllers";
 import { userAuthentication } from "../middlewares";
 
 const router = Router();
@@ -15,7 +15,7 @@ router.get("/health-status", async (req, res) => {
 router.post("/login", loginUser);
 router.post("/register", registerUser);
 router.get("/user-profile", middlewares, getUserProfile);
-router.post('/create-post', middlewares, createPost);
+router.post('/save-user-profile', saveUserProfile);
 router.get('/get-post', middlewares, getUserPosts);
 
 export default router;

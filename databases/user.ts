@@ -1,12 +1,15 @@
 import { Service } from "typedi";
 import UserModel from "../models/userModels";
+import UserProfileDataModel, { UserProfileData } from "../models/userProfileModel";
 
 // Database Queries Only No Business logic
 @Service()
 export class UserCollection {
   private userDataCollection;
+  private userProfileDataCollection;
   constructor() {
     this.userDataCollection = UserModel;
+    this.userProfileDataCollection = UserProfileDataModel;
   }
 
   async findUserByEmail(email: string) {
@@ -25,5 +28,12 @@ export class UserCollection {
       password: password,
       phone,
     }).save();
+  }
+
+  async findUserProfile(email: string) {
+    return await this.userProfileDataCollection.findOne({ email }).lean();
+  }
+  async saveUserProfileData(userProfileData: UserProfileData) {
+    await (new this.userProfileDataCollection(userProfileData)).save();
   }
 }

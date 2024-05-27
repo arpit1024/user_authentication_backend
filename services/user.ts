@@ -3,6 +3,7 @@ import { UserCollection } from "../databases/user";
 import bcrypt from "bcrypt";
 import { User } from "../models/userModels";
 import { PostCollection } from "../databases/posts";
+import { UserProfileData } from "../models/userProfileModel";
 interface IUserService {
   findUserByEmail(email: string): Promise<User | Error>;
   saveUserCollection(
@@ -46,13 +47,9 @@ export class UserService implements IUserService {
   }
 
 
-  async createUserPost(email: string, message: string) {
-    // check if user exists or not 
-    const user = await this.userCollection.findUserByEmail(email);
-    if (!user) return new Error('No user found!');
-  
-    // create
-    await this.postCollection.createPost(email, message);
-    return "OK"
+  async saveUserProfile(userProfile: UserProfileData) { 
+    const user = await this.userCollection.findUserProfile(userProfile.email);
+    if (user) return new Error('This user already added in the queue!');
+    return this.userCollection.saveUserProfileData(userProfile);
   }
 }

@@ -23,7 +23,7 @@ app.get("/api/item/:slug", (req, res) => {
   res.end(`Item: ${slug}`);
 });
 
-app.use("/user-authentication", routes);
+app.use("/relosy", routes);
 
 const PORT = process.env.PORT || 9200;
 
